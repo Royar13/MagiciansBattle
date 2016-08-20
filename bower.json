@@ -1,0 +1,27 @@
+{
+  "name": "MagiciansBattle",
+  "authors": [
+    "Roy Arad <royar13@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "jquery-mousewheel": "^3.1.13",
+    "TweenJS": "^0.6.2",
+    "EaselJS": "^0.8.2",
+    "PreloadJS": "^0.6.2",
+    "SoundJS": "^0.6.2",
+    "angular": "angularjs#^1.5.7",
+    "angular-route": "^1.5.7"
+  }
+}

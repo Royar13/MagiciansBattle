@@ -1,0 +1,37 @@
+﻿@import "config";
+
+@font-face {
+    font-family: "Medio";
+    src: url("#{$fonts-path}/medio-webfont.eot"), url("#{$fonts-path}/medio-webfont.ttf");
+}
+
+body {
+    margin: 0px;
+}
+
+body, input {
+    font-family: Medio;
+    font-size: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #236d98;
+    cursor: pointer;
+}
+
+#view {
+    top: $top-bar-height;
+    background: url("#{$images-path}/content-bg.png") repeat-y;
+    background-size: 100% auto;
+
+    .content {
+        margin: 0 auto;
+        width: $content-width;
+    }
+}
+
+.loader {
+    background-image: url("#{$images-path}/loader.gif");
+    background-size: 100%;
+}

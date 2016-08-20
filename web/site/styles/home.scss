@@ -1,0 +1,26 @@
+﻿@import "config";
+
+#cover {
+    background: url("#{$images-path}/hp-cover.jpg");
+    background-size: cover;
+    height: 720px;
+}
+
+#top-columns {
+    overflow: auto;
+
+    .column {
+        float: left;
+        width: 33%;
+        box-sizing: border-box;
+
+        h2 {
+            text-align: center;
+            font-size: 25px;
+        }
+    }
+
+    .column:not(:last-child) {
+        padding-right: 40px;
+    }
+}

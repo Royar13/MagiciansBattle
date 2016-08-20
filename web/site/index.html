@@ -1,0 +1,75 @@
+﻿<?php
+include "../urls.php";
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MagiciansBattle - Official Website</title>
+    <link rel="shortcut icon" type="image/png" href="<?=$urls["siteDist"] ?>/images/favicon.png" />
+    <link rel="stylesheet" href="<?=$urls["siteDist"] ?>/style.css" />
+    <script src="<?=$urls["base"] ?>/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="<?=$urls["base"] ?>/bower_components/angular/angular.min.js"></script>
+    <script src="<?=$urls["base"] ?>/bower_components/angular-route/angular-route.min.js"></script>
+    <script src="<?=$urls["siteDist"] ?>/script.js"></script>
+</head>
+<body ng-app="magiciansBattle" ng-controller="mainCtrl">
+    <div id="top">
+        <div id="top-bar">
+            <form ng-controller="loginCtrl" id="login-form">
+                <div ng-show="user==null">
+                    <div class="fields-wrapper">
+                        <input type="text" ng-model="fields.email" ng-focus="fieldsFocus=true" ng-blur="startMsgBoxTimer()" placeholder="Email" />
+                        <input type="password" ng-model="fields.password" ng-focus="fieldsFocus=true" ng-blur="startMsgBoxTimer()" placeholder="Password" />
+                        <div class="login-msg" ng-show="showMsgBox()">
+                            <div general-errors></div>
+                        </div>
+                    </div>
+                    <span class="login-btn">
+                        <a ng-click="login()" ng-show="!loading">LOG IN</a>
+                        <span class="loader" ng-show="loading"></span>
+                    </span>
+                    <a class="register-btn" ng-click="showRegisterDialog()">SIGN UP</a>
+                </div>
+                <div ng-show="user!=null" class="user-panel">
+                    <button class="md-icon-button" aria-label="User options">
+                        <!--<md-icon md-svg-icon="<?=$urls["siteDist"] ?>/images/icons/ic_arrow_drop_down_black_24px.svg"></md-icon>-->
+                    </button>
+
+                    Welcome
+                    <button ng-click="showRegisterDialog()">{{user.UserName}}</button>!
+                </div>
+            </form>
+        </div>
+        <div id="navbar">
+            <nav>
+                <img class="logo" src="<?=$urls["siteDist"] ?>/images/logo.png" />
+                <ul class="nav">
+                    <li>
+                        <a href="#">Play</a>
+                    </li>
+                    <li>
+                        <a href="#">News</a>
+                    </li>
+                    <li>
+                        <a href="#">The Game</a>
+                        <ul>
+                            <li><a href="#">Game Hub</a></li>
+                            <li><a href="#">Guide</a></li>
+                            <li><a href="#">Cards Explorer</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Community</a>
+                    </li>
+                    <li>
+                        <a href="#">Support</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="view">
+        <div ng-view></div>
+    </div>
+</body>
+</html>

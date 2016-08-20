@@ -1,0 +1,32 @@
+{
+  "name": "library-qa-demo",
+  "version": "1.0.0",
+  "description": "A library management system with purposely planted bugs for QA training courses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Royar13/Library-QA-Demo.git"
+  },
+  "author": "Roy Arad <royar13@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Royar13/Library-QA-Demo/issues"
+  },
+  "homepage": "https://github.com/Royar13/Library-QA-Demo#readme",
+  "devDependencies": {
+    "browser-sync": "^2.11.0",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-imagemin": "^2.2.1",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.3",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.2.0"
+  }
+}
