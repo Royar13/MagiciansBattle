@@ -1,0 +1,11 @@
+#cover {
+  background: url("../images/hp-cover.jpg");
+  background-size: cover;
+  padding-top: 35%;
+  min-height: 250px; }
+
+#game-desc {
+  font-size: 20px;
+  margin-top: 32px; }
+  #game-desc h2 {
+    text-align: center; }

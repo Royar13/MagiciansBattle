@@ -22,6 +22,11 @@
     "PreloadJS": "^0.6.2",
     "SoundJS": "^0.6.2",
     "angular": "angularjs#^1.5.7",
-    "angular-route": "^1.5.7"
+    "angular-route": "^1.5.7",
+    "foundation-sites": "^6.2.3",
+    "angular-css": "^1.0.8"
+  },
+  "resolutions": {
+    "jquery": "~2.2.0"
   }
 }

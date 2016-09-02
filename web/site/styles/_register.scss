@@ -1,0 +1,27 @@
+#register-modal {
+    h2 {
+        text-align: center;
+        color: #fff;
+    }
+    .logo {
+        height: 40px;
+    }
+    label {
+        color: #fff;
+        >b {        
+            font-size: 17px;
+            font-weight: normal;
+        }
+        .help-text {
+            color: #fff;
+            color: #999;
+            font-size: 15px;
+        }
+    }
+    .button {
+        background-color: #235EA1;
+    }
+    .button:hover, .button:focus {
+        background-color: #1D508A;
+    }
+}

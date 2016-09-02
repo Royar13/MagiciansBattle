@@ -1,17 +1,26 @@
-﻿@import "config";
+@import 'foundationSettings';
+@import 'foundation';
+
+@include foundation-everything;
+
+
+@import "config";
+@import "topBar";
+@import "login";
+@import "register";
+
 
 @font-face {
     font-family: "Medio";
     src: url("#{$fonts-path}/medio-webfont.eot"), url("#{$fonts-path}/medio-webfont.ttf");
 }
 
-body {
-    margin: 0px;
+*, h2 {
+    font-family: Medio;
 }
 
-body, input {
-    font-family: Medio;
-    font-size: 20px;
+body {
+    margin: 0px;
 }
 
 a {
@@ -20,14 +29,16 @@ a {
     cursor: pointer;
 }
 
-#view {
-    top: $top-bar-height;
-    background: url("#{$images-path}/content-bg.png") repeat-y;
-    background-size: 100% auto;
+a:hover {
+    color: #368ABA;
+}
 
-    .content {
-        margin: 0 auto;
-        width: $content-width;
+#view {
+    top: $login-bar-height;
+    background: url("#{$images-path}/content-bg.png") center center repeat-y;
+    background-size: map-get($breakpoints, medium) auto;
+    @media #{$medium-up} { 
+        background-size: 100% auto;
     }
 }
 
@@ -35,3 +46,9 @@ a {
     background-image: url("#{$images-path}/loader.gif");
     background-size: 100%;
 }
+.label {
+    font-size: inherit;
+    border-radius: 7px;
+    padding: 1px 8px;
+}
+.reveal:focus {outline:0;}

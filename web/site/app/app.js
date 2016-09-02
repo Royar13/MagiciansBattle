@@ -1,4 +1,8 @@
-﻿var app = angular.module("magiciansBattle", ["ngRoute"]);
+$(document).ready(function () {
+    $(document).foundation();
+});
+
+﻿var app = angular.module("magiciansBattle", ["ngRoute", "angularCSS"]);
 
 app.run(function ($rootScope) {
     $rootScope.templateUrl = templateUrl;
@@ -13,7 +17,8 @@ app.config(function ($routeProvider) {
     $routeProvider
             .when("/", {
                 templateUrl: templateUrl("home/home.html"),
-                controller: "homeCtrl"
+                controller: "homeCtrl",
+                css: styleUrl("home.css")
             })
             .when("/lobby", {
                 templateUrl: templateUrl("lobby/lobby.html"),
@@ -23,4 +28,7 @@ app.config(function ($routeProvider) {
 
 function templateUrl(relativeUrl) {
     return "/MagiciansBattle/web/site/app/controllers/" + relativeUrl;
+}
+function styleUrl(relativeUrl) {
+    return "/MagiciansBattle/web/dist/site/styles/" + relativeUrl;
 }

@@ -1,75 +1,176 @@
 ﻿<?php
-include "../urls.php";
+include "../paths.php";
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>MagiciansBattle - Official Website</title>
-    <link rel="shortcut icon" type="image/png" href="<?=$urls["siteDist"] ?>/images/favicon.png" />
-    <link rel="stylesheet" href="<?=$urls["siteDist"] ?>/style.css" />
-    <script src="<?=$urls["base"] ?>/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="<?=$urls["base"] ?>/bower_components/angular/angular.min.js"></script>
-    <script src="<?=$urls["base"] ?>/bower_components/angular-route/angular-route.min.js"></script>
-    <script src="<?=$urls["siteDist"] ?>/script.js"></script>
-</head>
-<body ng-app="magiciansBattle" ng-controller="mainCtrl">
-    <div id="top">
-        <div id="top-bar">
-            <form ng-controller="loginCtrl" id="login-form">
-                <div ng-show="user==null">
-                    <div class="fields-wrapper">
-                        <input type="text" ng-model="fields.email" ng-focus="fieldsFocus=true" ng-blur="startMsgBoxTimer()" placeholder="Email" />
-                        <input type="password" ng-model="fields.password" ng-focus="fieldsFocus=true" ng-blur="startMsgBoxTimer()" placeholder="Password" />
-                        <div class="login-msg" ng-show="showMsgBox()">
-                            <div general-errors></div>
-                        </div>
+    <head>
+        <title>MagiciansBattle - Official Website</title>
+        <link rel="shortcut icon" type="image/png" href="<?= $paths["siteDist"] ?>/images/favicon.png" />
+        <link rel="stylesheet" href="<?= $paths["siteDist"] ?>/styles/style.css" />
+        <script src="<?= $paths["base"] ?>/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/foundation-sites/dist/foundation.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/angular/angular.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/angular-route/angular-route.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/angular-css/angular-css.min.js"></script>
+        <script src="<?= $paths["siteDist"] ?>/script.js"></script>
+    </head>
+    <body ng-app="magiciansBattle" ng-controller="mainCtrl">
+        <div id="top" class="show-for-large">
+            <div id="login-bar">
+                <div>
+                    <div id="login-links" ng-show="user == null">
+                        <a id="login-btn" data-open="login-modal">LOG IN</a>
+                        <a id="register-btn" data-open="register-modal">SIGN UP</a>
                     </div>
-                    <span class="login-btn">
-                        <a ng-click="login()" ng-show="!loading">LOG IN</a>
-                        <span class="loader" ng-show="loading"></span>
-                    </span>
-                    <a class="register-btn" ng-click="showRegisterDialog()">SIGN UP</a>
-                </div>
-                <div ng-show="user!=null" class="user-panel">
-                    <button class="md-icon-button" aria-label="User options">
-                        <!--<md-icon md-svg-icon="<?=$urls["siteDist"] ?>/images/icons/ic_arrow_drop_down_black_24px.svg"></md-icon>-->
-                    </button>
+                    <div id="user-panel" ng-show="user != null" >
 
-                    Welcome
-                    <button ng-click="showRegisterDialog()">{{user.UserName}}</button>!
+                        Welcome
+                        <button ng-click="showRegisterDialog()">{{user.UserName}}</button>!
+                    </div>
                 </div>
+            </div>
+            <div id="navbar-init">
+                <div class="row column">
+                    <nav id="navbar" class="top-bar">
+                        <div class="top-bar-title">
+                            <img id="logo" src="<?= $paths["siteDist"] ?>/images/logo.png" />
+                        </div>
+                        <div class="top-bar-left">
+                            <ul class="dropdown menu" data-dropdown-menu>
+                                <li>
+                                    <a href="#">Play</a>
+                                </li>
+                                <li>
+                                    <a href="#">News</a>
+                                </li>
+                                <li>
+                                    <a href="#">The Game</a>
+                                    <ul class="menu">
+                                        <li><a href="#">Game Hub</a></li>
+                                        <li><a href="#">Guide</a></li>
+                                        <li><a href="#">Cards Explorer</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Community</a>
+                                </li>
+                                <li>
+                                    <a href="#">Support</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <nav id="small-navbar" class="hide-for-large">
+            <div class="open-menu-btn-init">
+                <button class="menu-icon" data-open="small-navbar-modal"></button>
+            </div>
+            <img id="small-logo" src="<?= $paths["siteDist"] ?>/images/logo.png" />
+        </nav>
+        <div class="full reveal" id="small-navbar-modal" data-reveal>
+            <ul class="vertical menu" data-accordion-menu>
+                <li>
+                    <a href="#">Play</a>
+                </li>
+                <li>
+                    <a href="#">News</a>
+                </li>
+                <li>
+                    <a href="#">The Game</a>
+                    <ul class="vertical menu nested">
+                        <li><a href="#">Game Hub</a></li>
+                        <li><a href="#">Guide</a></li>
+                        <li><a href="#">Cards Explorer</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Community</a>
+                </li>
+                <li>
+                    <a href="#">Support</a>
+                </li>
+            </ul>
+            <div class="login-links">
+                <a href="#" data-open="login-modal">Login</a>
+                <a href="#" data-open="register-modal">Sign Up</a>
+            </div>
+
+            <button class="close-button" data-close aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="reveal" id="login-modal" data-reveal ng-controller="loginCtrl">
+            <h2>
+                <div class=" show-for-small-only">
+                    <img class="logo" src="<?= $paths["siteDist"] ?>/images/logo.png">
+                    <hr>
+                </div>
+                Login
+                <hr class="show-for-medium">
+            </h2>
+
+            <form>
+
+                <label><b>Username:</b>
+                    <input type="text">
+                </label>
+
+
+                <label><b>Password:</b>
+                    <input type="password">
+                    <p class="help-text"><a href="#">Forgot Password</a></p>
+                </label>
+                <div style="text-align: center;">
+                    <button class="button">Login</button>
+                </div>
+
             </form>
+            <button class="close-button" data-close aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div id="navbar">
-            <nav>
-                <img class="logo" src="<?=$urls["siteDist"] ?>/images/logo.png" />
-                <ul class="nav">
-                    <li>
-                        <a href="#">Play</a>
-                    </li>
-                    <li>
-                        <a href="#">News</a>
-                    </li>
-                    <li>
-                        <a href="#">The Game</a>
-                        <ul>
-                            <li><a href="#">Game Hub</a></li>
-                            <li><a href="#">Guide</a></li>
-                            <li><a href="#">Cards Explorer</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Community</a>
-                    </li>
-                    <li>
-                        <a href="#">Support</a>
-                    </li>
-                </ul>
-            </nav>
+
+        <div class="reveal" id="register-modal" data-reveal ng-controller="loginCtrl">
+            <h2>
+                <div class="show-for-small-only">
+                    <img class="logo" src="<?= $paths["siteDist"] ?>/images/logo.png">
+                    <hr>
+                </div>
+                Sign Up
+            </h2>
+            <hr class="show-for-medium">
+            <form>
+                <label><b>Email:</b>
+                    <input type="text">
+                    <p class="help-text">Has to be a valid email. Will be used to login to the game.</p>
+                </label>
+
+                <label><b>Display Name:</b>
+                    <input type="text">
+                    <p class="help-text">Display name may contain English characters, numbers, underscores and dots.</p>
+                </label>
+
+                <label><b>Password:</b>
+                    <input type="password">
+                </label>
+                <label><b>Re-enter Password:</b>
+                    <input type="password">
+                    <p class="help-text">Password must be at least 6 characters long</p>
+                </label>
+                <div style="text-align: center;">
+                    <button class="button">Sign Up</button>
+                </div>
+
+            </form>
+            <button class="close-button" data-close aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </div>
-    <div id="view">
-        <div ng-view></div>
-    </div>
-</body>
+
+        <div id="view">
+            <div ng-view></div>
+        </div>
+    </body>
 </html>

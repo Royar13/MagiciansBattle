@@ -1,0 +1,153 @@
+#top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+#login-bar {
+    font-size: 18px;
+    height: $login-bar-height;
+    background-color: #000;
+    border-bottom: 2px solid #236d98;
+    padding-right: 32px;
+    >div {
+        float: right;
+    }
+
+    #user-panel {
+        color: #fff;
+    }
+    #login-links {
+        a {
+            display: block;
+            float: left;
+            font-weight: bold;
+            line-height: $login-bar-height;
+        }
+        #login-btn {
+            margin-right: 15px;
+        }
+
+        #register-btn {
+            color: #189c47;
+        }
+        #register-btn:hover {
+            color: #26AB55;
+        }
+    }
+}
+
+#navbar-init {
+    background-color: rgba(30, 30, 30, 0.9);
+    border-bottom: 1px solid #777;
+    font-size: 25px;
+
+    #navbar {
+        background: none;
+        height: $navbar-height;
+
+        #logo {
+            margin-top: 10px;
+            height: $navbar-height - 15px;
+            float: left;
+        }
+        .top-bar-left>ul {
+            background: none;
+            margin-left: 20px;
+
+            > li.is-dropdown-submenu-parent > a::after {
+                border-color: #fff transparent transparent;
+            }
+            > li.is-dropdown-submenu-parent > a:hover::after {
+                border-color: #db4319 transparent transparent;
+            }
+
+            > li {
+                > a {
+                    font-size: 25px;
+                    text-decoration: none;
+                    color: #fff;
+                    line-height: $navbar-height - 10px;
+                    margin-top: 15px;
+                    padding: 0px 18px;
+                }
+
+                > a:hover {
+                    color: #db4319;
+                }
+
+                > ul {
+                    background-color: rgba(30, 30, 30, 0.8);
+                    width: 200px;
+                    border: 0px;
+                    border-top: 1px solid #db4319;
+
+                    a {
+                        font-size: 20px;
+                        text-decoration: none;
+                        color: #fff;
+                        padding: 15px 25px;
+                        border-bottom: 1px solid #222;
+                    }
+
+                    li:not(:first-child) a {
+                        border-top: 1px solid #505050;
+                    }
+
+                    a:hover {
+                        color: #db4319;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#small-navbar {
+    background-color: rgba(30, 30, 30, 0.9);
+    border-bottom: 1px solid #777;
+
+    position: relative;
+    text-align: center;
+    line-height: 55px;
+    .open-menu-btn-init {
+        position: absolute;
+        top: 0px;
+        left: 20px;
+        line-height: 55px;
+    }
+    #small-logo {
+        height: 40px;
+    }
+}
+
+#small-navbar-modal {
+    color: #fff;
+    padding: 0px;
+    padding-top: 15px;
+    li {
+        border-bottom: 1px solid #444;
+    }
+    a {
+        color: #fff;
+        font-size: 20px;
+    }
+    a:hover {
+        color: #ccc;
+    }
+    .is-accordion-submenu-parent > a::after {
+        border-color: #fff transparent transparent;
+    }
+    ul.nested {
+        background-color: #2a2a2a;
+    }
+    .login-links {
+        a {
+            display: block;
+            float: left;
+            width: 50%;
+            text-align: center;
+            line-height: 60px;
+        }
+    }
+}

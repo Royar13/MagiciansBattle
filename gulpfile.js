@@ -26,14 +26,32 @@ function uglifyFunc(src, dest) {
             .pipe(gulp.dest(dest));
 }
 
-function sassFunc(src, dest) {
-    return gulp.src(src)
-            .pipe(plumber(onError))
-            .pipe(sass({outputStyle: "compressed"}))
-            .pipe(autoprefixer())
-            .pipe(concat("style.css"))
-            .pipe(gulp.dest(dest))
-            .pipe(browserSync.stream());
+function sassFunc(src, dest, filename) {
+    var boolConcat = typeof filename !== "undefined";
+
+    if (boolConcat) {
+        return gulp.src(src)
+                .pipe(plumber(onError))
+                .pipe(sass({
+                    //outputStyle: "compressed",
+                    includePaths: "bower_components/foundation-sites/scss"
+                }))
+                .pipe(autoprefixer())
+                .pipe(concat(filename + ".css"))
+                .pipe(gulp.dest(dest))
+                .pipe(browserSync.stream());
+    }
+    else {
+        return gulp.src(src)
+                .pipe(plumber(onError))
+                .pipe(sass({
+                    //outputStyle: "compressed",
+                    includePaths: "bower_components/foundation-sites/scss"
+                }))
+                .pipe(autoprefixer())
+                .pipe(gulp.dest(dest))
+                .pipe(browserSync.stream());
+    }
 }
 
 function imageminFunc(src, dest) {
@@ -42,34 +60,37 @@ function imageminFunc(src, dest) {
             .pipe(gulp.dest(dest));
 }
 
-var sitePath = "web/site";
-var gamePath = "web/game";
-var distPath = "web/dist";
+var paths = {
+    site: "web/site",
+    game: "web/game",
+    dist: "web/dist"
+};
 
 gulp.task("uglify-site", function () {
-    return uglifyFunc(sitePath + "/app/**/*.js", distPath + "/site");
+    return uglifyFunc(paths.site + "/app/**/*.js", paths.dist + "/site");
 });
 gulp.task("uglify-game", function () {
-    return uglifyFunc(gamePath + "/scripts/**/*.js", distPath + "/game");
+    return uglifyFunc(paths.game + "/scripts/**/*.js", paths.dist + "/game");
 });
 
 gulp.task("sass-site", function () {
-    return sassFunc(sitePath + "/styles/*.scss", distPath + "/site");
+    return sassFunc(paths.site + "/styles/**/*.scss", paths.dist + "/site/styles");
 });
 gulp.task("sass-game", function () {
-    return sassFunc(gamePath + "/styles/*.scss", distPath + "/game");
+    return sassFunc(paths.game + "/styles/**/*.scss", paths.dist + "/game", "style");
 });
 
 gulp.task("images-site", function () {
-    return imageminFunc(sitePath + "/images/*.*", distPath + "/site/images");
+    return imageminFunc(paths.site + "/images/*.*", paths.dist + "/site/images");
 });
 gulp.task("images-game", function () {
-    return imageminFunc(gamePath + "/images/*.*", distPath + "/game/images");
+    return imageminFunc(paths.game + "/images/*.*", paths.dist + "/game/images");
 });
 
 gulp.task("browser-sync", function () {
     browserSync.init({
-        proxy: "http://localhost/MagiciansBattle/web/site/index.html"
+        proxy: "http://localhost/MagiciansBattle/web/site/index.html",
+        notify: false
     });
 });
 
@@ -79,16 +100,16 @@ gulp.task('bs-reload', function () {
 
 gulp.task("watch", function () {
     gulp.watch("*.html", ["bs-reload"]);
-    gulp.watch(sitePath + "/**/*.html", ["bs-reload"]);
+    gulp.watch(paths.site + "/**/*.html", ["bs-reload"]);
 
-    gulp.watch(sitePath + "/**/*.js", ["uglify-site", "bs-reload"]);
-    gulp.watch(gamePath + "/scripts/**/*.js", ["uglify-game", "bs-reload"]);
+    gulp.watch(paths.site + "/**/*.js", ["uglify-site", "bs-reload"]);
+    gulp.watch(paths.game + "/scripts/**/*.js", ["uglify-game", "bs-reload"]);
 
-    gulp.watch(sitePath + "/styles/*.scss", ["sass-site"]);
-    gulp.watch(gamePath + "/styles/*.scss", ["sass-game"]);
+    gulp.watch(paths.site + "/styles/**/*.scss", ["sass-site"]);
+    gulp.watch(paths.game + "/styles/**/*.scss", ["sass-game"]);
 
-    gulp.watch(sitePath + "/images/*.*", ["images-site"]);
-    gulp.watch(gamePath + "/images/*.*", ["images-game"]);
+    gulp.watch(paths.site + "/images/*.*", ["images-site"]);
+    gulp.watch(paths.game + "/images/*.*", ["images-game"]);
 });
 
 gulp.task("default", ["browser-sync", "uglify-site", "uglify-game", "sass-site", "sass-game", "images-site", "images-game", "watch"]);
