@@ -16,7 +16,7 @@ include "../paths.php";
     </head>
     <body ng-app="magiciansBattle" ng-controller="mainCtrl">
         <div id="top" class="show-for-large">
-            <div id="login-bar">
+            <div id="login-bar" ng-controller="loginBarCtrl">
                 <div>
                     <div id="login-links" ng-show="user == null">
                         <a id="login-btn" data-open="login-modal">LOG IN</a>
@@ -46,7 +46,7 @@ include "../paths.php";
                                 <li>
                                     <a href="#">The Game</a>
                                     <ul class="menu">
-                                        <li><a href="#">Game Hub</a></li>
+                                        <li><a href="#">Lobby</a></li>
                                         <li><a href="#">Guide</a></li>
                                         <li><a href="#">Cards Explorer</a></li>
                                     </ul>
@@ -80,7 +80,6 @@ include "../paths.php";
                 <li>
                     <a href="#">The Game</a>
                     <ul class="vertical menu nested">
-                        <li><a href="#">Game Hub</a></li>
                         <li><a href="#">Guide</a></li>
                         <li><a href="#">Cards Explorer</a></li>
                     </ul>
@@ -93,8 +92,8 @@ include "../paths.php";
                 </li>
             </ul>
             <div class="login-links">
-                <a href="#" data-open="login-modal">Login</a>
-                <a href="#" data-open="register-modal">Sign Up</a>
+                <a data-open="login-modal">Login</a>
+                <a data-open="register-modal">Sign Up</a>
             </div>
 
             <button class="close-button" data-close aria-label="Close modal">
@@ -120,7 +119,7 @@ include "../paths.php";
 
                 <label><b>Password:</b>
                     <input type="password">
-                    <p class="help-text"><a href="#">Forgot Password</a></p>
+                    <p class="help-text"><a href="#" class="forgot-password-btn">Forgot Password?</a></p>
                 </label>
                 <div style="text-align: center;">
                     <button class="button">Login</button>
@@ -132,7 +131,7 @@ include "../paths.php";
             </button>
         </div>
 
-        <div class="reveal" id="register-modal" data-reveal ng-controller="loginCtrl">
+        <div class="reveal" id="register-modal" data-reveal ng-controller="registerCtrl">
             <h2>
                 <div class="show-for-small-only">
                     <img class="logo" src="<?= $paths["siteDist"] ?>/images/logo.png">
@@ -143,24 +142,22 @@ include "../paths.php";
             <hr class="show-for-medium">
             <form>
                 <label><b>Email:</b>
-                    <input type="text">
-                    <p class="help-text">Has to be a valid email. Will be used to login to the game.</p>
+                    <input text-field field-name="email" field-description="Has to be a valid email. Will be used to login to the game.">
                 </label>
 
                 <label><b>Display Name:</b>
-                    <input type="text">
-                    <p class="help-text">Display name may contain English characters, numbers, underscores and dots.</p>
+                    <input text-field field-name="displayName" field-description="Display name may contain English characters, numbers, underscores and dots.">
                 </label>
 
                 <label><b>Password:</b>
-                    <input type="password">
+                    <input text-field field-name="password" field-type="password" field-description="Password must be at least 6 characters long.">
                 </label>
                 <label><b>Re-enter Password:</b>
-                    <input type="password">
-                    <p class="help-text">Password must be at least 6 characters long</p>
+                    <input text-field field-name="confirmPassword" field-type="password">
                 </label>
-                <div style="text-align: center;">
-                    <button class="button">Sign Up</button>
+                <div class="submit-init">
+                    <button class="button" ng-click="register()" ng-show="!loading">Sign Up</button>
+                    <div class="loader" ng-show="loading"></div>
                 </div>
 
             </form>

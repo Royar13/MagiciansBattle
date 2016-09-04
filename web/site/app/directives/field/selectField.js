@@ -1,10 +1,10 @@
-angular.module("magiciansBattle").directive("selectField", function () {
+angular.module("magiciansBattle").directive("selectField", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
         require: "field",
-        templateUrl: "app/directives/field/selectField.html",
-        replace: false,
+        replace: true,
+        templateUrl: $rootScope.templateUrl("directives/field/selectField.html"),
         controller: function ($scope, $element) {
             $scope.field = $element.attr("field-name");
 
@@ -13,8 +13,8 @@ angular.module("magiciansBattle").directive("selectField", function () {
                 $scope.class = $element.attr("add-class");
             }
             $scope.description = "";
-            if ($element[0].hasAttribute("description")) {
-                $scope.description = $element.attr("description");
+            if ($element[0].hasAttribute("field-description")) {
+                $scope.description = $element.attr("field-description");
             }
             $scope.selectName = $element.attr("options");
             var valueName = null;

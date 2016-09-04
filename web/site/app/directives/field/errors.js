@@ -1,7 +1,7 @@
-angular.module("magiciansBattle").directive("errors", function () {
+angular.module("magiciansBattle").directive("errors", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
-        templateUrl: "app/directives/field/errors.html"
+        templateUrl: $rootScope.templateUrl("directives/field/errors.html")
     };
 });

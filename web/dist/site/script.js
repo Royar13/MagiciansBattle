@@ -5,7 +5,9 @@ $(document).ready(function () {
 ﻿var app = angular.module("magiciansBattle", ["ngRoute", "angularCSS"]);
 
 app.run(function ($rootScope) {
+    $rootScope.apiUrl = apiUrl;
     $rootScope.templateUrl = templateUrl;
+    $rootScope.styleUrl = styleUrl;
 
     //$rootScope.$on("$routeChangeSuccess", function (ev, data) {
     //    if (data.$route && data.$route.controller)
@@ -16,18 +18,21 @@ app.run(function ($rootScope) {
 app.config(function ($routeProvider) {
     $routeProvider
             .when("/", {
-                templateUrl: templateUrl("home/home.html"),
+                templateUrl: templateUrl("controllers/home/home.html"),
                 controller: "homeCtrl",
                 css: styleUrl("home.css")
             })
             .when("/lobby", {
-                templateUrl: templateUrl("lobby/lobby.html"),
+                templateUrl: templateUrl("controllers/lobby/lobby.html"),
                 controller: "lobbyCtrl"
             });
 });
 
+function apiUrl(relativeUrl) {
+    return "/MagiciansBattle/web/app_dev.php/api/" + relativeUrl;
+}
 function templateUrl(relativeUrl) {
-    return "/MagiciansBattle/web/site/app/controllers/" + relativeUrl;
+    return "/MagiciansBattle/web/site/app/" + relativeUrl;
 }
 function styleUrl(relativeUrl) {
     return "/MagiciansBattle/web/dist/site/styles/" + relativeUrl;
@@ -118,45 +123,63 @@ angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
 
 });
 angular.module("magiciansBattle").controller("loginCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
+    $scope.loading = false;
+    
+});
+angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
     $scope.user = null;
     userService.getUser().then(function (user) {
         $scope.user = user;
     });
 
-    $scope.loading = false;
-
-    $scope.showRegisterDialog = function () {
-
-    };
-
 });
 angular.module("magiciansBattle").controller("mainCtrl", function ($scope) {
 
 });
-angular.module("magiciansBattle").controller("registerCtrl", function ($scope) {
-    $scope.serverErrors = { a: "A" };
+angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
+    $scope.loading = false;
+    $scope.fields = {};
+    $scope.errors = {};
+
+    $scope.register = function () {
+        $scope.loading = true;
+        $scope.errors = {};
+        $http({
+            method: "post",
+            url: $rootScope.apiUrl("account/register"),
+            data: $scope.fields
+        }).then(function (response) {
+            $scope.loading = false;
+            if (response.data.success) {
+                alert("yay");
+            }
+            else {
+                $scope.errors = response.data.errors;
+            }
+        });
+    };
 });
-angular.module("magiciansBattle").directive("errors", function () {
+angular.module("magiciansBattle").directive("errors", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
-        templateUrl: "app/directives/field/errors.html"
+        templateUrl: $rootScope.templateUrl("directives/field/errors.html")
     };
 });
-angular.module("magiciansBattle").directive("generalErrors", function () {
+angular.module("magiciansBattle").directive("generalErrors", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
-        templateUrl: "app/directives/field/generalErrors.html"
+        templateUrl: $rootScope.templateUrl("directives/field/generalErrors.html")
     };
 });
-angular.module("magiciansBattle").directive("selectField", function () {
+angular.module("magiciansBattle").directive("selectField", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
         require: "field",
-        templateUrl: "app/directives/field/selectField.html",
-        replace: false,
+        replace: true,
+        templateUrl: $rootScope.templateUrl("directives/field/selectField.html"),
         controller: function ($scope, $element) {
             $scope.field = $element.attr("field-name");
 
@@ -165,8 +188,8 @@ angular.module("magiciansBattle").directive("selectField", function () {
                 $scope.class = $element.attr("add-class");
             }
             $scope.description = "";
-            if ($element[0].hasAttribute("description")) {
-                $scope.description = $element.attr("description");
+            if ($element[0].hasAttribute("field-description")) {
+                $scope.description = $element.attr("field-description");
             }
             $scope.selectName = $element.attr("options");
             var valueName = null;
@@ -193,12 +216,12 @@ angular.module("magiciansBattle").directive("selectField", function () {
         }
     };
 });
-angular.module("magiciansBattle").directive("textField", function () {
+angular.module("magiciansBattle").directive("textField", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
-        templateUrl: "app/directives/field/textField.html",
-        replace: false,
+        templateUrl: $rootScope.templateUrl("directives/field/textField.html"),
+        replace: true,
         controller: function ($scope, $element) {
             $scope.field = $element.attr("field-name");
             $scope.class = "";
@@ -206,8 +229,8 @@ angular.module("magiciansBattle").directive("textField", function () {
                 $scope.class = $element.attr("add-class");
             }
             $scope.description = "";
-            if ($element[0].hasAttribute("description")) {
-                $scope.description = $element.attr("description");
+            if ($element[0].hasAttribute("field-description")) {
+                $scope.description = $element.attr("field-description");
             }
             $scope.fieldType = "text";
             if ($element[0].hasAttribute("field-type")) {

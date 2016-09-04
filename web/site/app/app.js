@@ -5,7 +5,9 @@ $(document).ready(function () {
 ﻿var app = angular.module("magiciansBattle", ["ngRoute", "angularCSS"]);
 
 app.run(function ($rootScope) {
+    $rootScope.apiUrl = apiUrl;
     $rootScope.templateUrl = templateUrl;
+    $rootScope.styleUrl = styleUrl;
 
     //$rootScope.$on("$routeChangeSuccess", function (ev, data) {
     //    if (data.$route && data.$route.controller)
@@ -16,18 +18,21 @@ app.run(function ($rootScope) {
 app.config(function ($routeProvider) {
     $routeProvider
             .when("/", {
-                templateUrl: templateUrl("home/home.html"),
+                templateUrl: templateUrl("controllers/home/home.html"),
                 controller: "homeCtrl",
                 css: styleUrl("home.css")
             })
             .when("/lobby", {
-                templateUrl: templateUrl("lobby/lobby.html"),
+                templateUrl: templateUrl("controllers/lobby/lobby.html"),
                 controller: "lobbyCtrl"
             });
 });
 
+function apiUrl(relativeUrl) {
+    return "/MagiciansBattle/web/app_dev.php/api/" + relativeUrl;
+}
 function templateUrl(relativeUrl) {
-    return "/MagiciansBattle/web/site/app/controllers/" + relativeUrl;
+    return "/MagiciansBattle/web/site/app/" + relativeUrl;
 }
 function styleUrl(relativeUrl) {
     return "/MagiciansBattle/web/dist/site/styles/" + relativeUrl;

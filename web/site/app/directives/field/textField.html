@@ -1,4 +1,5 @@
-<div field-description="{{description}}">
-    <input id="{{field}}" ng-class="class" type="{{fieldType}}" ng-model="fields[field]">
+<div>
+    <input ng-class="class" type="{{fieldType}}" ng-model="fields[field]">
+    <p class="help-text" ng-show="!errors[field]" ng-class="{'invisible': loading}">{{description}}</p>
+    <div errors></div>
 </div>
-<div errors></div>

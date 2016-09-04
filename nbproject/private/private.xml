@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/styles/style.scss</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/styles/_login.scss</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/app/controllers/login/login.js</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/src/AppBundle/Entity/User.php</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/styles/_topBar.scss</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/styles/_register.scss</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/src/AppBundle/Controller/UserController.php</file>
-            <file>file:/D:/wamp/www/MagiciansBattle/web/site/index.html</file>
+            <file>file:/D:/wamp64/www/MagiciansBattle/test.php</file>
+            <file>file:/D:/wamp64/www/MagiciansBattle/src/AppBundle/Controller/UserController.php</file>
         </group>
     </open-files>
 </project-private>

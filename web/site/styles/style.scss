@@ -43,8 +43,11 @@ a:hover {
 }
 
 .loader {
+    display: inline-block;
     background-image: url("#{$images-path}/loader.gif");
     background-size: 100%;
+    width: 25px;
+    height: 25px;
 }
 .label {
     font-size: inherit;
@@ -52,3 +55,6 @@ a:hover {
     padding: 1px 8px;
 }
 .reveal:focus {outline:0;}
+.errors {
+    color: #BA0D24 !important;
+}

@@ -2971,7 +2971,7 @@ html.is-reveal-open body {
 .reveal {
   display: none;
   z-index: 1006;
-  padding: 40px;
+  padding: 3%;
   border: 1px solid #111;
   background-color: #333;
   border-radius: 0;
@@ -3665,6 +3665,13 @@ table.hover tr:nth-of-type(even):hover {
 #login-modal .button:hover, #login-modal .button:focus {
   background-color: #1D508A; }
 
+#login-modal .forgot-password-btn {
+  font-size: 15px;
+  color: #777; }
+
+#login-modal .forgot-password-btn:hover {
+  color: #555; }
+
 #register-modal h2 {
   text-align: center;
   color: #fff; }
@@ -3687,6 +3694,10 @@ table.hover tr:nth-of-type(even):hover {
 
 #register-modal .button:hover, #register-modal .button:focus {
   background-color: #1D508A; }
+
+#register-modal .submit-init {
+  text-align: center;
+  margin-top: 30px; }
 
 @font-face {
   font-family: "Medio";
@@ -3715,8 +3726,11 @@ a:hover {
       background-size: 100% auto; } }
 
 .loader {
+  display: inline-block;
   background-image: url("../images/loader.gif");
-  background-size: 100%; }
+  background-size: 100%;
+  width: 25px;
+  height: 25px; }
 
 .label {
   font-size: inherit;
@@ -3725,3 +3739,6 @@ a:hover {
 
 .reveal:focus {
   outline: 0; }
+
+.errors {
+  color: #BA0D24 !important; }

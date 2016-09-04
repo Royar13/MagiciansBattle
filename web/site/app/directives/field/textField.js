@@ -1,9 +1,9 @@
-angular.module("magiciansBattle").directive("textField", function () {
+angular.module("magiciansBattle").directive("textField", function ($rootScope) {
     return {
         restrict: "A",
         scope: true,
-        templateUrl: "app/directives/field/textField.html",
-        replace: false,
+        templateUrl: $rootScope.templateUrl("directives/field/textField.html"),
+        replace: true,
         controller: function ($scope, $element) {
             $scope.field = $element.attr("field-name");
             $scope.class = "";
@@ -11,8 +11,8 @@ angular.module("magiciansBattle").directive("textField", function () {
                 $scope.class = $element.attr("add-class");
             }
             $scope.description = "";
-            if ($element[0].hasAttribute("description")) {
-                $scope.description = $element.attr("description");
+            if ($element[0].hasAttribute("field-description")) {
+                $scope.description = $element.attr("field-description");
             }
             $scope.fieldType = "text";
             if ($element[0].hasAttribute("field-type")) {

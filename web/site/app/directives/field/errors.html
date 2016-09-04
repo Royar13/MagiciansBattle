@@ -1,5 +1,8 @@
-<div class="errors" ng-hide="loading">
-    <div ng-repeat="msg in errors['fields'][field]">
+<!--<div class="errors" ng-hide="loading">
+    <div ng-repeat="msg in errors[field]">
         * {{msg}}
     </div>
-</div>
+</div>-->
+<p class="errors help-text" ng-if="errors[field]" ng-hide="loading">
+    * {{errors[field][0]}}
+</p>

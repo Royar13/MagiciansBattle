@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -8,8 +8,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
  */
 class User implements UserInterface, \Serializable {
 
@@ -46,13 +46,17 @@ class User implements UserInterface, \Serializable {
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
-
-    public function getUsername() {
+    
+    public function getEmail() {
         return $this->email;
     }
 
-    public function setUsername($email) {
+    public function setEmail($email) {
         $this->email = $email;
+    }
+
+    public function getUsername() {
+        return $this->getEmail();
     }
 
     public function getDisplayName() {
@@ -90,7 +94,7 @@ class User implements UserInterface, \Serializable {
     }
 
     public function eraseCredentials() {
-        
+        $this->plainPassword = null;
     }
 
     /** @see \Serializable::serialize() */
