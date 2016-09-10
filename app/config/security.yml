@@ -5,9 +5,14 @@ security:
         AppBundle\Entity\User\User: bcrypt
         
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory:
-            memory: ~
+    providers:            
+        my_entity_provider:
+            entity:
+                class: AppBundle\Entity\User\User
+                property: email
+        webservice:
+            id: app.webservice_user_provider
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -17,6 +22,16 @@ security:
 
         main:
             anonymous: ~
+            form_login:
+                require_previous_session: false
+                login_path: /api/account/login
+                check_path: /api/account/login
+                success_handler: authentication_handler
+                failure_handler: authentication_handler
+                username_parameter: email
+                password_parameter: password
+
+
             # activate different ways to authenticate
 
             # http_basic: ~

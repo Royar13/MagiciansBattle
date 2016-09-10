@@ -6,6 +6,7 @@ include "../paths.php";
     <head>
         <title>MagiciansBattle - Official Website</title>
         <link rel="shortcut icon" type="image/png" href="<?= $paths["siteDist"] ?>/images/favicon.png" />
+        <link rel="stylesheet" href="<?= $paths["base"] ?>/bower_components/components-font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="<?= $paths["siteDist"] ?>/styles/style.css" />
         <script src="<?= $paths["base"] ?>/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="<?= $paths["base"] ?>/bower_components/foundation-sites/dist/foundation.min.js"></script>
@@ -17,16 +18,14 @@ include "../paths.php";
     <body ng-app="magiciansBattle" ng-controller="mainCtrl">
         <div id="top" class="show-for-large">
             <div id="login-bar" ng-controller="loginBarCtrl">
-                <div>
-                    <div id="login-links" ng-show="user == null">
-                        <a id="login-btn" data-open="login-modal">LOG IN</a>
-                        <a id="register-btn" data-open="register-modal">SIGN UP</a>
-                    </div>
-                    <div id="user-panel" ng-show="user != null" >
-
-                        Welcome
-                        <button ng-click="showRegisterDialog()">{{user.UserName}}</button>!
-                    </div>
+                <div id="login-links" ng-show="getUser() == null">
+                    <a id="login-btn" data-open="login-modal">LOG IN</a>
+                    <a id="register-btn" data-open="register-modal">SIGN UP</a>
+                </div>
+                <div id="user-panel" ng-show="getUser() != null" >
+                    <img class="user-icon" src="<?= $paths["siteDist"] ?>/images/user-icon.png">
+                    <b>{{getUser().displayName}}</b>
+                    <i class="fa fa-caret-down"></i>
                 </div>
             </div>
             <div id="navbar-init">
@@ -70,7 +69,7 @@ include "../paths.php";
             <img id="small-logo" src="<?= $paths["siteDist"] ?>/images/logo.png" />
         </nav>
         <div class="full reveal" id="small-navbar-modal" data-reveal>
-            <ul class="vertical menu" data-accordion-menu>
+            <ul class="vertical menu" data-accordion-menu ng-controller="loginBarCtrl">
                 <li>
                     <a href="#">Play</a>
                 </li>
@@ -90,11 +89,20 @@ include "../paths.php";
                 <li>
                     <a href="#">Support</a>
                 </li>
+                <li>
+                    <div class="login-links" ng-show="getUser() == null">
+                        <a data-open="login-modal">Login</a>
+                        <a data-open="register-modal">Sign Up</a>
+                    </div>
+                    <div class="user-panel" ng-show="getUser() != null">
+                        <img class="user-icon" src="<?= $paths["siteDist"] ?>/images/user-icon.png">
+                        <b>{{getUser().displayName}}</b>
+                    </div>
+                </li>
+                <li ng-show="getUser() != null">
+                    <a href="#">Logout</a>
+                </li>
             </ul>
-            <div class="login-links">
-                <a data-open="login-modal">Login</a>
-                <a data-open="register-modal">Sign Up</a>
-            </div>
 
             <button class="close-button" data-close aria-label="Close modal">
                 <span aria-hidden="true">&times;</span>
@@ -112,17 +120,19 @@ include "../paths.php";
 
             <form>
 
-                <label><b>Username:</b>
-                    <input type="text">
+                <label><b>Email:</b>
+                    <input text-field field-name="email">
                 </label>
 
 
                 <label><b>Password:</b>
-                    <input type="password">
+                    <input text-field field-name="password" field-type="password">
                     <p class="help-text"><a href="#" class="forgot-password-btn">Forgot Password?</a></p>
                 </label>
+                <div general-errors></div>
                 <div style="text-align: center;">
-                    <button class="button">Login</button>
+                    <button class="button" ng-click="login()" ng-show="!loading">Login</button>
+                    <div class="loader" ng-show="loading"></div>
                 </div>
 
             </form>
@@ -140,7 +150,7 @@ include "../paths.php";
                 Sign Up
             </h2>
             <hr class="show-for-medium">
-            <form>
+            <form ng-if="!accountCreated">
                 <label><b>Email:</b>
                     <input text-field field-name="email" field-description="Has to be a valid email. Will be used to login to the game.">
                 </label>
@@ -153,7 +163,7 @@ include "../paths.php";
                     <input text-field field-name="password" field-type="password" field-description="Password must be at least 6 characters long.">
                 </label>
                 <label><b>Re-enter Password:</b>
-                    <input text-field field-name="confirmPassword" field-type="password">
+                    <input text-field field-name="passwordConfirm" field-type="password">
                 </label>
                 <div class="submit-init">
                     <button class="button" ng-click="register()" ng-show="!loading">Sign Up</button>
@@ -161,6 +171,10 @@ include "../paths.php";
                 </div>
 
             </form>
+            <div ng-if="accountCreated" class="callout success accountCreatedMsg">
+                <h3>Congratulations!</h3>
+                Your account <b>{{fields.email}}</b> was successfully created!
+            </div>
             <button class="close-button" data-close aria-label="Close modal">
                 <span aria-hidden="true">&times;</span>
             </button>

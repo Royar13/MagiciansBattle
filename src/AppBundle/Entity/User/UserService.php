@@ -10,6 +10,7 @@ use AppBundle\Entity\Validation\EmailRule;
 use AppBundle\Entity\Validation\LengthRule;
 use AppBundle\Entity\Validation\PasswordConfirmRule;
 use AppBundle\Entity\Validation\DisplayNameRule;
+use AppBundle\Entity\Validation\NotEmptyRule;
 
 class UserService {
 
@@ -21,10 +22,10 @@ class UserService {
 
     public function createUser(User $user, $passwordConfirm, ValidationResult $validationResult = null) {
         $validator = new Validator($validationResult);
-        $validator->rule(new EmailRule())->validate("email", $user->getEmail());
-        $validator->rule(new LengthRule(3, 18))->withName("The display name")->rule(new DisplayNameRule())->validate("displayName", $user->getDisplayName());
-        $validator->rule(new LengthRule(6, 30))->validate("password", $user->getPlainPassword());
-        $validator->rule(new PasswordConfirmRule($user->getPlainPassword()))->validate("passwordConfirm", $passwordConfirm);
+        $validator->rule(new NotEmptyRule())->rule(new EmailRule())->validate("email", $user->getEmail());
+        $validator->rule(new NotEmptyRule())->withName("The display name")->rule(new LengthRule(3, 18))->rule(new DisplayNameRule())->validate("displayName", $user->getDisplayName());
+        $validator->rule(new NotEmptyRule())->rule(new LengthRule(6, 30))->validate("password", $user->getPlainPassword());
+        $validator->rule(new NotEmptyRule())->withName("Password confirmation")->rule(new PasswordConfirmRule($user->getPlainPassword()))->validate("passwordConfirm", $passwordConfirm);
 
         $res = $validator->getResult();
         $this->validateEmailIsntTaken($user->getEmail(), $res);

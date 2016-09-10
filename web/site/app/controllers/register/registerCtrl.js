@@ -1,11 +1,11 @@
-﻿angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
+﻿angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $rootScope, $http, userService) {
     $scope.loading = false;
     $scope.fields = {};
     $scope.errors = {};
+    $scope.accountCreated = false;
 
     $scope.register = function () {
         $scope.loading = true;
-        $scope.errors = {};
         $http({
             method: "post",
             url: $rootScope.apiUrl("account/register"),
@@ -13,7 +13,8 @@
         }).then(function (response) {
             $scope.loading = false;
             if (response.data.success) {
-                alert("yay");
+                $scope.accountCreated = true;
+                userService.login();
             }
             else {
                 $scope.errors = response.data.errors;

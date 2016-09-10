@@ -4,14 +4,14 @@ namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User implements UserInterface, \Serializable {
+class User implements UserInterface, \Serializable, EquatableInterface {
 
     /**
      * @ORM\Column(type="integer")
@@ -46,7 +46,10 @@ class User implements UserInterface, \Serializable {
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
-    
+
+    /**
+     * @Groups({"group1"})
+     */
     public function getEmail() {
         return $this->email;
     }
@@ -59,6 +62,9 @@ class User implements UserInterface, \Serializable {
         return $this->getEmail();
     }
 
+    /**
+     * @Groups({"group1"})
+     */
     public function getDisplayName() {
         return $this->displayName;
     }
@@ -117,6 +123,26 @@ class User implements UserInterface, \Serializable {
                 // see section on salt below
                 // $this->salt
                 ) = unserialize($serialized);
+    }
+
+    public function isEqualTo(UserInterface $user) {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->getSalt() !== $user->getSalt()) {
+            return false;
+        }
+
+        if ($this->email !== $user->getEmail()) {
+            return false;
+        }
+
+        return true;
     }
 
 }

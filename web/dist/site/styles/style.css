@@ -3552,7 +3552,16 @@ table.hover tr:nth-of-type(even):hover {
   #login-bar > div {
     float: right; }
   #login-bar #user-panel {
-    color: #fff; }
+    color: #fff;
+    line-height: 48px;
+    cursor: pointer; }
+    #login-bar #user-panel .user-icon {
+      width: 20px;
+      margin-right: 5px; }
+    #login-bar #user-panel .fa-caret-down {
+      color: #fff;
+      font-size: 14px;
+      margin-left: 3px; }
   #login-bar #login-links a {
     display: block;
     float: left;
@@ -3625,12 +3634,12 @@ table.hover tr:nth-of-type(even):hover {
 #small-navbar-modal {
   color: #fff;
   padding: 0px;
-  padding-top: 15px; }
-  #small-navbar-modal li {
+  padding-top: 15px;
+  font-size: 20px; }
+  #small-navbar-modal li:not(:last-child) {
     border-bottom: 1px solid #444; }
   #small-navbar-modal a {
-    color: #fff;
-    font-size: 20px; }
+    color: #fff; }
   #small-navbar-modal a:hover {
     color: #ccc; }
   #small-navbar-modal .is-accordion-submenu-parent > a::after {
@@ -3643,6 +3652,13 @@ table.hover tr:nth-of-type(even):hover {
     width: 50%;
     text-align: center;
     line-height: 60px; }
+  #small-navbar-modal .user-panel {
+    line-height: 60px;
+    padding-left: 0.7rem; }
+    #small-navbar-modal .user-panel .user-icon {
+      margin-right: 5px; }
+    #small-navbar-modal .user-panel a {
+      font-size: 15px; }
 
 #login-modal h2 {
   text-align: center;
@@ -3703,7 +3719,7 @@ table.hover tr:nth-of-type(even):hover {
   font-family: "Medio";
   src: url("../../fonts/medio_regular_macroman/medio-webfont.eot"), url("../../fonts/medio_regular_macroman/medio-webfont.ttf"); }
 
-*, h2 {
+*, h2, h3 {
   font-family: Medio; }
 
 body {

@@ -3,6 +3,6 @@
         * {{msg}}
     </div>
 </div>-->
-<p class="errors help-text" ng-if="errors[field]" ng-hide="loading">
+<p class="errors help-text" ng-if="errors[field]" ng-class="{'invisible': loading}">
     * {{errors[field][0]}}
 </p>

@@ -21,15 +21,19 @@ class Validator {
         }
     }
 
-    public function validate($propertyName, $value) {
+    public function validate($propertyName, $value, $boolRecordErrors = true) {
         if (count($this->useRules) === 0)
             throw new Exception("Rule undefined");
 
         $passed = true;
-
+        $prevFieldName = null;
         for ($i = 0; $i < count($this->useRules); $i++) {
             $rule = $this->useRules[$i];
-            $fieldName = $this->useFieldNames[$i];
+            if ($this->useFieldNames[$i] === null && $prevFieldName !== null) {
+                $fieldName = $prevFieldName;
+            } else {
+                $fieldName = $prevFieldName = $this->useFieldNames[$i];
+            }
             $message = $this->useMessages[$i];
             if ($message !== null) {
                 $rule->setMessage($message);
@@ -40,10 +44,12 @@ class Validator {
             }
             if (!$rule->validate($value)) {
                 $passed = false;
-                if ($rule->getMessage() !== null) {
-                    $this->validationResult->addError($propertyName, $rule->getMessage());
-                } else {
-                    $this->validationResult->setInvalid();
+                if ($boolRecordErrors) {
+                    if ($rule->getMessage() !== null) {
+                        $this->validationResult->addError($propertyName, $rule->getMessage());
+                    } else {
+                        $this->validationResult->setInvalid();
+                    }
                 }
             }
         }
@@ -52,7 +58,7 @@ class Validator {
         $this->reset();
         return $passed;
     }
-
+    
     public function rule(Rule $rule) {
         $index = count($this->useRules);
         $this->useRules[$index] = $rule;

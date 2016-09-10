@@ -37,113 +37,127 @@ function templateUrl(relativeUrl) {
 function styleUrl(relativeUrl) {
     return "/MagiciansBattle/web/dist/site/styles/" + relativeUrl;
 }
-angular.module("magiciansBattle").service("userService", function ($http, $location, $q) {
-    this.user = null;
-    this.userRequest = null;
-    this.updateUser = function (user) {
-        this.user = user;
+angular.module("magiciansBattle").factory("userService", function ($http, $location, $q, $rootScope) {
+    var self = {
+        login: login,
+        logOff: logOff,
+        fetchUser: fetchUser,
+        getUser: getUser,
+        setUser: setUser
     };
 
-    this.login = function (fields) {
+    var user = null;
+    var userRequest = null;
+
+    function login(fields) {
         var deferred = $q.defer();
         $http({
             method: "post",
-            url: "/api/Account/Login",
+            url: $rootScope.apiUrl("account/login"),
             data: fields
         }).then(function (response) {
             if (response.data.success) {
-                this.updateUser(response.data.user);
-
-                deferred.resolve(this.user);
+                fetchUser();
+                deferred.resolve();
             }
             else {
                 deferred.reject(response.data.errors);
             }
-        }.bind(this), function () {
+        }, function () {
             deferred.reject();
         });
 
         return deferred.promise;
-    };
+    }
 
-    this.logOff = function () {
+    function logOff() {
         $http({
             method: "post",
-            url: "/api/account/LogOff"
+            url: $rootScope.apiUrl("account/logOff")
         }).then(function () {
-            this.updateUser(null);
-            this.userRequest = null;
+            user = null;
+            userRequest = null;
             $location.path("/");
         }.bind(this));
-    };
+    }
 
-    this.getUser = function () {
+    function fetchUser() {
         var deferred = $q.defer();
 
-        if (this.user != null) {
-            deferred.resolve(this.user);
+        if (user != null) {
+            deferred.resolve(user);
         }
         else {
-            if (this.userRequest == null) {
-                this.userRequest = $http({
+            if (userRequest == null) {
+                userRequest = $http({
                     method: "post",
-                    url: "/api/account/FetchUser"
+                    url: $rootScope.apiUrl("account/fetchUser")
                 });
             }
-            this.userRequest.then(function (response) {
+            userRequest.then(function (response) {
                 if (response.data.success) {
-                    this.updateUser(response.data.user);
-                    deferred.resolve(this.user);
+                    user = response.data.user;
+                    deferred.resolve(user);
                 }
                 else {
                     deferred.reject();
                 }
-            }.bind(this), function () {
+            }, function () {
                 deferred.reject();
             });
         }
         return deferred.promise;
-    };
+    }
 
-    this.hasPermission = function (id) {
-        if (this.user == null)
-            return false;
-        var permissions = this.user.permissionsArr;
-        for (var i in permissions) {
-            if (permissions[i] == id)
-                return true;
-        }
-        return false;
-    };
-});
-angular.module("magiciansBattle").controller("homeCtrl", function ($scope) {
+    function getUser() {
+        return user;
+    }
 
+    function setUser(value) {
+        user = value;
+    }
+
+    return self;
 });
 angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
 
 });
-angular.module("magiciansBattle").controller("loginCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
-    $scope.loading = false;
-    
-});
-angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
-    $scope.user = null;
-    userService.getUser().then(function (user) {
-        $scope.user = user;
-    });
+angular.module("magiciansBattle").controller("homeCtrl", function ($scope) {
 
 });
-angular.module("magiciansBattle").controller("mainCtrl", function ($scope) {
-
-});
-angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $rootScope, $http, $location, $timeout, userService) {
+angular.module("magiciansBattle").controller("loginCtrl", function ($scope, userService) {
     $scope.loading = false;
     $scope.fields = {};
     $scope.errors = {};
 
+    $scope.login = function () {
+        $scope.loading = true;
+        userService.login($scope.fields).then(function () {
+            $("#login-modal").foundation("close");
+        }, function () {
+            $scope.errors.generalErrors = ["Wrong email or password"];
+        }).finally(function () {
+            $scope.loading = false;
+        });
+    };
+
+});
+angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, userService) {
+    userService.fetchUser();
+
+    $scope.getUser = userService.getUser;
+});
+angular.module("magiciansBattle").controller("mainCtrl", function ($scope) {
+
+});
+angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $rootScope, $http, userService) {
+    $scope.loading = false;
+    $scope.fields = {};
+    $scope.errors = {};
+    $scope.accountCreated = false;
+
     $scope.register = function () {
         $scope.loading = true;
-        $scope.errors = {};
         $http({
             method: "post",
             url: $rootScope.apiUrl("account/register"),
@@ -151,7 +165,8 @@ angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $
         }).then(function (response) {
             $scope.loading = false;
             if (response.data.success) {
-                alert("yay");
+                $scope.accountCreated = true;
+                userService.login();
             }
             else {
                 $scope.errors = response.data.errors;
