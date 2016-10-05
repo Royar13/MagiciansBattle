@@ -18,14 +18,26 @@ include "../paths.php";
     <body ng-app="magiciansBattle" ng-controller="mainCtrl">
         <div id="top" class="show-for-large">
             <div id="login-bar" ng-controller="loginBarCtrl">
-                <div id="login-links" ng-show="getUser() == null">
-                    <a id="login-btn" data-open="login-modal">LOG IN</a>
-                    <a id="register-btn" data-open="register-modal">SIGN UP</a>
-                </div>
-                <div id="user-panel" ng-show="getUser() != null" >
-                    <img class="user-icon" src="<?= $paths["siteDist"] ?>/images/user-icon.png">
-                    <b>{{getUser().displayName}}</b>
-                    <i class="fa fa-caret-down"></i>
+                <div ng-show="loggedIn() !== null">
+                    <div id="login-links" ng-show="!loggedIn()">
+                        <a id="login-btn" data-open="login-modal">LOG IN</a>
+                        <a id="register-btn" data-open="register-modal">SIGN UP</a>
+                    </div>
+                    <div id="user-panel" ng-show="loggedIn()">
+                        <div class="title" ng-click="toggleTooltip()">
+                            <img class="user-icon" src="<?= $paths["siteDist"] ?>/images/user-icon.png">
+                            <b>{{getUser().displayName}}</b>
+                            <i class="fa fa-caret-down"></i>
+                        </div>
+                        <div class="userMenu">
+                            <div style="overflow: auto;">
+                                <div class="triangle"></div>
+                            </div>
+                            <div class="content">
+                                <a ng-click="logout()">Disconnect</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="navbar-init">
@@ -89,18 +101,18 @@ include "../paths.php";
                 <li>
                     <a href="#">Support</a>
                 </li>
-                <li>
-                    <div class="login-links" ng-show="getUser() == null">
+                <li ng-show="loggedIn() !== null">
+                    <div class="login-links" ng-show="!loggedIn()">
                         <a data-open="login-modal">Login</a>
                         <a data-open="register-modal">Sign Up</a>
                     </div>
-                    <div class="user-panel" ng-show="getUser() != null">
+                    <div class="user-panel" ng-show="loggedIn()">
                         <img class="user-icon" src="<?= $paths["siteDist"] ?>/images/user-icon.png">
                         <b>{{getUser().displayName}}</b>
                     </div>
                 </li>
-                <li ng-show="getUser() != null">
-                    <a href="#">Logout</a>
+                <li ng-show="loggedIn()">
+                    <a ng-click="logout()">Logout</a>
                 </li>
             </ul>
 

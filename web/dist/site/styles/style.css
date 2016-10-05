@@ -3552,9 +3552,11 @@ table.hover tr:nth-of-type(even):hover {
   #login-bar > div {
     float: right; }
   #login-bar #user-panel {
+    position: relative;
     color: #fff;
-    line-height: 48px;
-    cursor: pointer; }
+    line-height: 48px; }
+    #login-bar #user-panel .title {
+      cursor: pointer; }
     #login-bar #user-panel .user-icon {
       width: 20px;
       margin-right: 5px; }
@@ -3562,6 +3564,26 @@ table.hover tr:nth-of-type(even):hover {
       color: #fff;
       font-size: 14px;
       margin-left: 3px; }
+    #login-bar #user-panel .userMenu {
+      position: absolute;
+      right: 0px;
+      top: 85%;
+      display: none; }
+      #login-bar #user-panel .userMenu .triangle {
+        float: right;
+        margin-right: 40px;
+        border-bottom: 4px solid #fff;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        box-shadow: 0px 0px 5px #777;
+        width: 0px; }
+      #login-bar #user-panel .userMenu > .content {
+        line-height: 20px;
+        font-size: 15px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0px 0px 5px #777; }
   #login-bar #login-links a {
     display: block;
     float: left;

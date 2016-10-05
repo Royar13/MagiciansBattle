@@ -1,7 +1,7 @@
 ﻿angular.module("magiciansBattle").factory("userService", function ($http, $location, $q, $rootScope) {
     var self = {
         login: login,
-        logOff: logOff,
+        logout: logout,
         fetchUser: fetchUser,
         getUser: getUser,
         setUser: setUser
@@ -18,8 +18,9 @@
             data: fields
         }).then(function (response) {
             if (response.data.success) {
-                fetchUser();
-                deferred.resolve();
+                fetchUser().then(function () {
+                    deferred.resolve();
+                });
             }
             else {
                 deferred.reject(response.data.errors);
@@ -31,15 +32,14 @@
         return deferred.promise;
     }
 
-    function logOff() {
+    function logout() {
         $http({
             method: "post",
-            url: $rootScope.apiUrl("account/logOff")
+            url: $rootScope.apiUrl("account/logout")
         }).then(function () {
             user = null;
             userRequest = null;
-            $location.path("/");
-        }.bind(this));
+        });
     }
 
     function fetchUser() {
@@ -65,6 +65,8 @@
                 }
             }, function () {
                 deferred.reject();
+            }).finally(function () {
+                userRequest = null;
             });
         }
         return deferred.promise;

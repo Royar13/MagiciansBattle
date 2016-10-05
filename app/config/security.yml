@@ -30,7 +30,9 @@ security:
                 failure_handler: authentication_handler
                 username_parameter: email
                 password_parameter: password
-
+            logout:
+                path:   /api/account/logout
+                target: /
 
             # activate different ways to authenticate
 

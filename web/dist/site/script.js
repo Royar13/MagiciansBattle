@@ -40,7 +40,7 @@ function styleUrl(relativeUrl) {
 angular.module("magiciansBattle").factory("userService", function ($http, $location, $q, $rootScope) {
     var self = {
         login: login,
-        logOff: logOff,
+        logout: logout,
         fetchUser: fetchUser,
         getUser: getUser,
         setUser: setUser
@@ -57,8 +57,9 @@ angular.module("magiciansBattle").factory("userService", function ($http, $locat
             data: fields
         }).then(function (response) {
             if (response.data.success) {
-                fetchUser();
-                deferred.resolve();
+                fetchUser().then(function () {
+                    deferred.resolve();
+                });
             }
             else {
                 deferred.reject(response.data.errors);
@@ -70,15 +71,14 @@ angular.module("magiciansBattle").factory("userService", function ($http, $locat
         return deferred.promise;
     }
 
-    function logOff() {
+    function logout() {
         $http({
             method: "post",
-            url: $rootScope.apiUrl("account/logOff")
+            url: $rootScope.apiUrl("account/logout")
         }).then(function () {
             user = null;
             userRequest = null;
-            $location.path("/");
-        }.bind(this));
+        });
     }
 
     function fetchUser() {
@@ -104,6 +104,8 @@ angular.module("magiciansBattle").factory("userService", function ($http, $locat
                 }
             }, function () {
                 deferred.reject();
+            }).finally(function () {
+                userRequest = null;
             });
         }
         return deferred.promise;
@@ -119,10 +121,10 @@ angular.module("magiciansBattle").factory("userService", function ($http, $locat
 
     return self;
 });
-angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
+angular.module("magiciansBattle").controller("homeCtrl", function ($scope) {
 
 });
-angular.module("magiciansBattle").controller("homeCtrl", function ($scope) {
+angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
 
 });
 angular.module("magiciansBattle").controller("loginCtrl", function ($scope, userService) {
@@ -142,10 +144,38 @@ angular.module("magiciansBattle").controller("loginCtrl", function ($scope, user
     };
 
 });
-angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, userService) {
-    userService.fetchUser();
+angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, $route, userService) {
+    var fetchFinished = false;
+    $scope.loggedIn = function () {
+        if (!fetchFinished)
+            return null;
+        return $scope.getUser() !== null;
+    };
+    userService.fetchUser().finally(function () {
+        fetchFinished = true;
+    });
 
     $scope.getUser = userService.getUser;
+
+    $scope.toggleTooltip = function () {
+        if ($("#user-panel .userMenu").is(":visible")) {
+            $("#user-panel .userMenu").hide();
+            $(document).off(".hideUserMenu");
+        }
+        else {
+            $("#user-panel .userMenu").show();
+            $(document).on("click.hideUserMenu", function (event) {
+                if (!$(event.target).closest("#user-panel").length) {
+                    $scope.toggleTooltip();
+                }
+            });
+        }
+    };
+
+    $scope.logout = function () {
+        userService.logout();
+        location.reload();
+    };
 });
 angular.module("magiciansBattle").controller("mainCtrl", function ($scope) {
 
