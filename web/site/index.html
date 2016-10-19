@@ -13,6 +13,10 @@ include "../paths.php";
         <script src="<?= $paths["base"] ?>/bower_components/angular/angular.min.js"></script>
         <script src="<?= $paths["base"] ?>/bower_components/angular-route/angular-route.min.js"></script>
         <script src="<?= $paths["base"] ?>/bower_components/angular-css/angular-css.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/angular-css/angular-css.min.js"></script>
+        <script src="<?= $paths["base"] ?>/bower_components/angular-css/angular-css.min.js"></script>
+        <script src="<?= $paths["base"] ?>/vendor/gos/web-socket-bundle/resources/public/js/vendor/autobahn.min.js"></script>
+        <script src="<?= $paths["base"] ?>/vendor/gos/web-socket-bundle/resources/public/js/gos_web_socket_client.js"></script>
         <script src="<?= $paths["siteDist"] ?>/script.js"></script>
     </head>
     <body ng-app="magiciansBattle" ng-controller="mainCtrl">
@@ -44,7 +48,7 @@ include "../paths.php";
                 <div class="row column">
                     <nav id="navbar" class="top-bar">
                         <div class="top-bar-title">
-                            <img id="logo" src="<?= $paths["siteDist"] ?>/images/logo.png" />
+                            <a href="#/"><img id="logo" src="<?= $paths["siteDist"] ?>/images/logo.png" /></a>
                         </div>
                         <div class="top-bar-left">
                             <ul class="dropdown menu" data-dropdown-menu>
@@ -57,13 +61,17 @@ include "../paths.php";
                                 <li>
                                     <a href="#">The Game</a>
                                     <ul class="menu">
-                                        <li><a href="#">Lobby</a></li>
+                                        <li><a href="#lobby">Lobby</a></li>
                                         <li><a href="#">Guide</a></li>
                                         <li><a href="#">Cards Explorer</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#">Community</a>
+                                    <ul class="menu">
+                                        <li><a href="#forum">Forum</a></li>
+                                        <li><a href="#chat">Chat</a></li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#">Support</a>
@@ -185,7 +193,7 @@ include "../paths.php";
             </form>
             <div ng-if="accountCreated" class="callout success accountCreatedMsg">
                 <h3>Congratulations!</h3>
-                Your account <b>{{fields.email}}</b> was successfully created!
+                Your account <b>{{fields.email}}</b> was successfully created.
             </div>
             <button class="close-button" data-close aria-label="Close modal">
                 <span aria-hidden="true">&times;</span>

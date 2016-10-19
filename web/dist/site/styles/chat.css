@@ -1,0 +1,28 @@
+#chatFrame {
+  width: 600px;
+  border: 1px solid #999;
+  margin: 0 auto; }
+  #chatFrame .userList {
+    float: left;
+    width: 150px;
+    padding: 10px; }
+  #chatFrame .chatboxInit {
+    overflow: auto;
+    border-left: 1px solid #999;
+    padding: 10px; }
+  #chatFrame .chatbox {
+    height: 500px;
+    margin-bottom: 10px; }
+  #chatFrame .user {
+    margin-bottom: 10px; }
+  #chatFrame .user.loggedUser {
+    font-weight: bold; }
+  #chatFrame .newMessageInit {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+  #chatFrame .newMessageInit .newMessage {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    margin-right: 5px; }

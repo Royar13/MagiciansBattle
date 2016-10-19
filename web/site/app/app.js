@@ -24,7 +24,13 @@ app.config(function ($routeProvider) {
             })
             .when("/lobby", {
                 templateUrl: templateUrl("controllers/lobby/lobby.html"),
-                controller: "lobbyCtrl"
+                controller: "lobbyCtrl",
+                css: styleUrl("lobby.css")
+            })
+            .when("/chat", {
+                templateUrl: templateUrl("controllers/chat/chat.html"),
+                controller: "chatCtrl",
+                css: styleUrl("chat.css")
             });
 });
 

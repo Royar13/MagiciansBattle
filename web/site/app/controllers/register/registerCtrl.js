@@ -14,7 +14,7 @@
             $scope.loading = false;
             if (response.data.success) {
                 $scope.accountCreated = true;
-                userService.login();
+                userService.login($scope.fields);
             }
             else {
                 $scope.errors = response.data.errors;

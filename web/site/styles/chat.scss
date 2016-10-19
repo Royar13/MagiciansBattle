@@ -1,0 +1,35 @@
+#chatFrame {
+    width: 600px;
+    border: 1px solid #999;
+    margin: 0 auto;
+    .userList {
+        float: left;
+        width: 150px;
+        padding: 10px;
+    }
+    .chatboxInit {
+        overflow: auto;
+        border-left: 1px solid #999;
+        padding: 10px;
+    }
+
+    .chatbox {
+        height: 500px;
+        margin-bottom: 10px;
+    }
+    .user {
+        margin-bottom: 10px;
+    }
+    .user.loggedUser {
+        font-weight: bold;
+    }
+    .newMessageInit {
+        display: flex;
+    }
+    .newMessageInit {
+        .newMessage {
+            flex: 1;
+            margin-right: 5px;
+        } 
+    }
+}

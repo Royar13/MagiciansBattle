@@ -1,0 +1,4 @@
+chat_topic:
+    channel: chat/channel
+    handler:
+        callback: 'chat.topic' #related to the getName() of your topic

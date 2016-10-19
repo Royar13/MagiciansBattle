@@ -33,13 +33,24 @@ a:hover {
     color: #368ABA;
 }
 
-#view {
-    top: $login-bar-height;
+.hexes-bg {
     background: url("#{$images-path}/content-bg.png") center center repeat-y;
     background-size: map-get($breakpoints, medium) auto;
     @media #{$medium-up} { 
         background-size: 100% auto;
     }
+    min-height: 900px;
+    padding-top: 32px;
+}
+
+.breadcrumbs li::after {
+    color: #222 !important;
+}
+
+.pull-behind-nav {
+    position: relative;
+    margin-top: -$navbar-height - 20;
+    z-index: 1;
 }
 
 .loader {

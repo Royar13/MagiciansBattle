@@ -3539,9 +3539,9 @@ table.hover tr:nth-of-type(even):hover {
   clear: both; }
 
 #top {
-  position: fixed;
-  top: 0;
-  width: 100%; }
+  position: relative;
+  width: 100%;
+  z-index: 5; }
 
 #login-bar {
   font-size: 18px;
@@ -3602,10 +3602,10 @@ table.hover tr:nth-of-type(even):hover {
   font-size: 25px; }
   #navbar-init #navbar {
     background: none;
-    height: 70px; }
+    height: 75px; }
     #navbar-init #navbar #logo {
       margin-top: 10px;
-      height: 55px;
+      height: 60px;
       float: left; }
     #navbar-init #navbar .top-bar-left > ul {
       background: none;
@@ -3618,7 +3618,7 @@ table.hover tr:nth-of-type(even):hover {
         font-size: 25px;
         text-decoration: none;
         color: #fff;
-        line-height: 60px;
+        line-height: 65px;
         margin-top: 15px;
         padding: 0px 18px; }
       #navbar-init #navbar .top-bar-left > ul > li > a:hover {
@@ -3755,13 +3755,22 @@ a {
 a:hover {
   color: #368ABA; }
 
-#view {
-  top: 48px;
+.hexes-bg {
   background: url("../images/content-bg.png") center center repeat-y;
-  background-size: 640px auto; }
+  background-size: 640px auto;
+  min-height: 900px;
+  padding-top: 32px; }
   @media screen and (min-width: 40em) {
-    #view {
+    .hexes-bg {
       background-size: 100% auto; } }
+
+.breadcrumbs li::after {
+  color: #222 !important; }
+
+.pull-behind-nav {
+  position: relative;
+  margin-top: -95px;
+  z-index: 1; }
 
 .loader {
   display: inline-block;

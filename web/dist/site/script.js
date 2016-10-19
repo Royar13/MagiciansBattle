@@ -24,7 +24,13 @@ app.config(function ($routeProvider) {
             })
             .when("/lobby", {
                 templateUrl: templateUrl("controllers/lobby/lobby.html"),
-                controller: "lobbyCtrl"
+                controller: "lobbyCtrl",
+                css: styleUrl("lobby.css")
+            })
+            .when("/chat", {
+                templateUrl: templateUrl("controllers/chat/chat.html"),
+                controller: "chatCtrl",
+                css: styleUrl("chat.css")
             });
 });
 
@@ -124,25 +130,18 @@ angular.module("magiciansBattle").factory("userService", function ($http, $locat
 angular.module("magiciansBattle").controller("homeCtrl", function ($scope) {
 
 });
-angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
-
+angular.module("magiciansBattle").controller("chatCtrl", function ($scope) {
 });
-angular.module("magiciansBattle").controller("loginCtrl", function ($scope, userService) {
-    $scope.loading = false;
-    $scope.fields = {};
-    $scope.errors = {};
 
-    $scope.login = function () {
-        $scope.loading = true;
-        userService.login($scope.fields).then(function () {
-            $("#login-modal").foundation("close");
-        }, function () {
-            $scope.errors.generalErrors = ["Wrong email or password"];
-        }).finally(function () {
-            $scope.loading = false;
-        });
-    };
+var websocket = WS.connect("ws://127.0.0.1:8080");
 
+websocket.on("socket/connect", function(session){
+    //the callback function in "subscribe" is called everytime an event is published in that channel.
+    session.subscribe("chat/channel", function(uri, payload){
+        console.log("Received message", payload.msg);
+    });
+
+    session.publish("chat/channel", "This is a message!");
 });
 angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $rootScope, $route, userService) {
     var fetchFinished = false;
@@ -177,6 +176,26 @@ angular.module("magiciansBattle").controller("loginBarCtrl", function ($scope, $
         location.reload();
     };
 });
+angular.module("magiciansBattle").controller("lobbyCtrl", function ($scope) {
+
+});
+angular.module("magiciansBattle").controller("loginCtrl", function ($scope, userService) {
+    $scope.loading = false;
+    $scope.fields = {};
+    $scope.errors = {};
+
+    $scope.login = function () {
+        $scope.loading = true;
+        userService.login($scope.fields).then(function () {
+            $("#login-modal").foundation("close");
+        }, function () {
+            $scope.errors.generalErrors = ["Wrong email or password"];
+        }).finally(function () {
+            $scope.loading = false;
+        });
+    };
+
+});
 angular.module("magiciansBattle").controller("mainCtrl", function ($scope) {
 
 });
@@ -196,7 +215,7 @@ angular.module("magiciansBattle").controller("registerCtrl", function ($scope, $
             $scope.loading = false;
             if (response.data.success) {
                 $scope.accountCreated = true;
-                userService.login();
+                userService.login($scope.fields);
             }
             else {
                 $scope.errors = response.data.errors;

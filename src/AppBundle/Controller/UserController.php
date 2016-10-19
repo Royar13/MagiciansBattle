@@ -56,7 +56,6 @@ class UserController extends Controller {
      * @Route("/api/account/fetchUser", name="fetch_user")
      */
     public function fetchUserAction() {
-        $validationResult = new ValidationResult();
         $output = array();
         if ($this->isGranted('ROLE_USER')) {
             $output["success"] = true;

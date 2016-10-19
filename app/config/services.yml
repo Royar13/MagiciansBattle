@@ -19,3 +19,30 @@ services:
         class: Qandidate\Common\Symfony\HttpKernel\EventListener\JsonRequestTransformerListener
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
+
+    chat.topic_service:
+        class: AppBundle\Service\WebSocket\ChatTopic
+        arguments: ['@gos_web_socket.websocket.client_manipulator']
+        tags:
+            - { name: gos_web_socket.topic }
+            
+    gos_web_socket_server.client_event.listener:
+        class: AppBundle\Service\WebSocket\ChatClientEventListener
+        tags:
+            - { name: kernel.event_listener, event: 'gos_web_socket.client_connected', method: onClientConnect }
+            - { name: kernel.event_listener, event: 'gos_web_socket.client_disconnected', method: onClientDisconnect }
+            - { name: kernel.event_listener, event: 'gos_web_socket.client_error', method: onClientError }
+            - { name: kernel.event_listener, event: 'gos_web_socket.server_launched', method: onServerStart }
+            - { name: kernel.event_listener, event: 'gos_web_socket.client_rejected', method: onClientRejected }
+    pdo:
+        class: PDO
+        arguments:
+            dsn: mysql:host=%database_host%;port=%database_port%;dbname=%database_name%
+            user: %database_user%
+            password: %database_password%
+        calls:
+            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        arguments: [@pdo, {lock_mode: 0}]
